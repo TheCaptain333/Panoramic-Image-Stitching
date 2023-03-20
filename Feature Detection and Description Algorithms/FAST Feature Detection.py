@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 filename = "map1.jpg"
 img = cv2.imread(filename,cv2.IMREAD_GRAYSCALE)
 
-fast = cv2.FastFeatureDetector_create(70)
+fast = cv2.FastFeatureDetector_create()
 
 kp=fast.detect(img,None)
 
