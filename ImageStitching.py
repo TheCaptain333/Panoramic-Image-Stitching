@@ -1,8 +1,7 @@
 import numpy as np
 import cv2
-from getDetectorAndDescriptor import getDescriptor,getDetector
 import argparse
-
+from FeatureMatching import getMatches
 
 if __name__ == "__main__":
     
@@ -17,30 +16,39 @@ if __name__ == "__main__":
     src_img = cv2.imread(args.source_image,cv2.IMREAD_GRAYSCALE)
     dest_img = cv2.imread(args.destination_image,cv2.IMREAD_GRAYSCALE)
     
+    
+    
+    src_img = cv2.resize(src_img,(src_img.shape[1]*400//src_img.shape[0],400))
+    dest_img = cv2.resize(dest_img,(dest_img.shape[1]*400//dest_img.shape[0],400))
+    
     if(len(arg_dict)==2):
         arg_dict['detectorName']='ORB'
         arg_dict['descriptorName']='ORB'
     elif(len(arg_dict)==3):
         arg_dict['descriptorName']='ORB'
         
-    kp1 = getDetector(arg_dict["detectorName"]).detect(src_img,None)
-    kp2 = getDetector(arg_dict["detectorName"]).detect(dest_img,None)
-    _,des1 = getDescriptor(arg_dict["descriptorName"]).compute(src_img,kp1)
-    _,des2 = getDescriptor(arg_dict["descriptorName"]).compute(dest_img,kp2)
+    kp1,kp2,matches = getMatches(arg_dict["detectorName"],arg_dict["descriptorName"],src_img,dest_img)
     
-    flag = 0
-    if(arg_dict["descriptorName"]=='ORB'or arg_dict["descriptorName"]=='BRIEF'):
-        flag = cv2.NORM_HAMMING
-    elif(arg_dict["descriptorName"]=='SIFT'):
-        flag = cv2.NORM_L2
-   
-    bf = cv2.BFMatcher(flag,crossCheck=True)
-    matches = bf.match(des1,des2)
-    matches = sorted(matches, key = lambda x:x.distance)
-    img3 = cv2.drawMatches(src_img,kp1,dest_img,kp2,matches[0:50],None,flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-    cv2.imshow("Brute-Force Matching",img3)
+    src_points = np.float32([kp1[m.queryIdx].pt for m in matches]).reshape(-1,1,2)
+    dest_points = np.float32([kp2[m.trainIdx].pt for m in matches]).reshape(-1,1,2)       
+            
+    M,mask = cv2.findHomography(dest_points,src_points,cv2.RANSAC,5.0)
+    matchesMask = mask.ravel().tolist()
+
+    width=dest_img.shape[1]+src_img.shape[1]
+    height=dest_img.shape[0]+src_img.shape[0]
+
+    result = cv2.warpPerspective(dest_img,M,(width,height))
+    result[0:src_img.shape[0],0:src_img.shape[1]]=src_img
+    
+    cv2.imshow("Image 1",src_img)
+    cv2.imshow("Image 2",dest_img)
+    cv2.imshow("Final Image",result)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
+    
+    
+    
     
     
 
