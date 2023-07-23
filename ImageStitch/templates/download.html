@@ -1,0 +1,9 @@
+<html>
+
+{% if result %}
+    <form action ="{% url 'download-image' result.id %}" method="GET">
+    <button type ="submit">Download</button>
+    </form>
+{% endif %}
+
+</html>

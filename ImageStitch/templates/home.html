@@ -1,0 +1,13 @@
+<html>
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload-image' %}">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Generate Panorama</button>
+    </form>
+
+    {% if result %}
+        <a href="{{result}}">Find the resultant image here</a>
+    {% endif %}
+
+
+</html>
