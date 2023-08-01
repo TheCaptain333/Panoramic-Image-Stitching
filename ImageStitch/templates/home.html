@@ -1,13 +1,25 @@
+{% load static %} 
+<!DOCTYPE html>
 <html>
-    <form method="post" enctype="multipart/form-data" action="{% url 'upload-image' %}">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'ImageStitch/style.css'%}">
+</head>
+
+<body>
+    <div class="heading">
+        <h1>Create amazing panoramas!</h1>
+    </div>
+    
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload-image' %}" >
         {% csrf_token %}
         {{form.as_p}}
         <button type="submit">Generate Panorama</button>
     </form>
-
+    
     {% if result %}
-        <a href="{{result}}">Find the resultant image here</a>
+    <a href="{{result}}">Find the resultant image here</a>
     {% endif %}
-
+</body>
 
 </html>

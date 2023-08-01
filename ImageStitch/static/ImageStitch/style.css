@@ -1,0 +1,75 @@
+@keyframes fadein{
+
+    from{opacity: 0%;}
+    to{opacity: 100%;}
+
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.heading {
+    border: 5px outset rgb(28, 8, 8);
+    border-radius: 10px;
+    background-color: rgb(147, 31, 230);
+    text-align: center;
+    text-shadow: 2px 2px #6b6b6b9a;
+    color: aliceblue;
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+    letter-spacing: 0.1em;
+    animation-name: fadein;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    
+}
+
+input::file-selector-button,button {
+    background-color: #df52b7; 
+    border-radius: 25px;
+    border: black;
+    color: white;
+    padding: 12px 12px;
+    text-align: center;
+    font-size: 16px;
+    width:fit-content;
+    box-shadow: 0 7px #9999999c;
+    margin-bottom: 1em;
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+  }
+
+  input::file-selector-button:hover{
+    background-color: #572653;
+  }
+
+  input::file-selector-button:active{
+    background-color: #572653;
+    box-shadow: 0 6px #6b6b6b;
+    transform: translateY(3px);
+  }
+
+  button:hover{
+    background-color: #572653;
+  }
+
+  button:active{
+    background-color: #572653;
+    box-shadow: 0 6px #6b6b6b;
+    transform: translateY(3px);
+  }
+
+form{
+    margin-top: 2em;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Georgia, 'Times New Roman', Times, serif ;
+    animation-name: fadein;
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+    margin-bottom: 4em;
+}

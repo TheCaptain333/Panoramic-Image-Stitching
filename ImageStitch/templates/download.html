@@ -1,9 +1,19 @@
+{% load static %} 
 <html>
 
-{% if result %}
-    <form action ="{% url 'download-image' result.id %}" method="GET">
-    <button type ="submit">Download</button>
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'ImageStitch/style.css'%}">
+</head>
+
+<body>
+    <div class="heading">
+        <h1>Create amazing panoramas</h1>
+    </div>
+    {% if result %}
+    <form action="{% url 'download-image' result.id %}" method="GET">
+        <button type="submit" >Download</button>
     </form>
-{% endif %}
+    {% endif %}
+</body>
 
 </html>
